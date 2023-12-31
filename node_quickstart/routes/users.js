@@ -1,17 +1,47 @@
 const express = require('express')
 const router = express.Router()
 module.exports = router
+const UserModel = require('../models/user_model')
 
-
+async function getUser(req,res,next) {
+    let user
+    try{
+        user = await UserModel.findById(req.params.id)
+        if (user == null){
+            return res.status(404).json({message : "Cannot find user"})
+        }
+    }
+    catch(err){
+        return res.status(500).json({message: err.message})
+    }
+    res.user = user
+    next()
+}
 // get all the users
-router.get('/', (req,res) =>{
-    res.send('Getting all the users')
-})
-// get one user
-router.get('/:id', (req,res) =>{
-    res.send('Getting one user by ID')
+router.get('/', async (req,res) =>{
+   try {
+        const Users = await UserModel.find()
+        res.json(Users)
+   }
+   catch (err) {
+        res.status(500).json({message : err.message}) 
+   }
 })
 // create a user
-router.post('/', (req,res) =>{
-    res.send('Created user')
+router.post('/', async (req,res) =>{
+    const user = new UserModel({
+        login : req.body.login,
+        password : req.body.password
+    })
+    try{
+        const newUser = await user.save()
+        res.status(201).json(newUser)
+    }
+    catch(err){
+        res.status(400).json({message : err.message}) 
+    }
+})
+// get one user
+router.get('/:id', getUser, (req,res) =>{
+    res.send(res.user)
 })
