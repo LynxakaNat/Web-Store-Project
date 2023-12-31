@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 //console.log("library")
-mongoose.connect()
+mongoose.connect("")
 //console.log("mongoose connection")
 const db = mongoose.connection
 db.on('error', (error) => console.error(error))

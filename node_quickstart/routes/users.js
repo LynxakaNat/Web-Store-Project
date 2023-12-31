@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 module.exports = router
 const UserModel = require('../models/user_model')
-
-async function getUser(req,res,next) {
+// TO DO CHECK THE FAVOURITES
+async function getUser(req,res,next) { // this is a helper function
+    // gets the user which allows for quicker deletion/modification/view 
     let user
     try{
         user = await UserModel.findById(req.params.id)
@@ -17,7 +18,7 @@ async function getUser(req,res,next) {
     res.user = user
     next()
 }
-// get all the users
+// get all the users .../users/
 router.get('/', async (req,res) =>{
    try {
         const Users = await UserModel.find()
@@ -43,5 +44,14 @@ router.post('/', async (req,res) =>{
 })
 // get one user
 router.get('/:id', getUser, (req,res) =>{
-    res.send(res.user)
+    res.send(res.user) 
+})
+// delete one user (I used way too many curse words during testing)
+router.delete('/:id', getUser, async(req,res) =>{
+    try{
+        await res.user.deleteOne()
+        res.send({message : "Deleted the user"})}
+    catch(err){
+        res.status(500).json({message : err.message}) 
+    }
 })
