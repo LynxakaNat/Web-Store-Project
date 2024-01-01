@@ -5,7 +5,7 @@ const ProductModel = require('../models/product_model')
 
 
 async function getProduct(req,res,next) { // this is a helper function
-    
+
     let prod
     try{
         prod = await ProductModel.findById(req.params.id)
@@ -26,7 +26,7 @@ router.get('/', async(req,res) =>{
         res.json(Products)
    }
    catch (err) {
-        res.status(500).json({message : err.message}) 
+        res.status(500).json({message : err.message})
    }
 })
 // get one product
@@ -47,7 +47,7 @@ router.post('/', async(req,res) =>{
         res.status(201).json(newProd)
     }
     catch(err){
-        res.status(400).json({message : err.message}) 
+        res.status(400).json({message : err.message})
     }
 })
 // delete a product
@@ -56,7 +56,7 @@ router.delete('/:id',getProduct, async(req,res) =>{
         await res.prod.deleteOne()
         res.send({message : "Deleted the product"})}
     catch(err){
-        res.status(500).json({message : err.message}) 
+        res.status(500).json({message : err.message})
     }
 })
 // update a product
@@ -80,7 +80,7 @@ router.patch('/:id', getProduct, async(req,res) =>{
         const updatedProd = await res.prod.save()
         res.json(updatedProd)}
     catch(err){
-        res.status(400).json({message : err.message}) 
+        res.status(400).json({message : err.message})
     }
 
 })

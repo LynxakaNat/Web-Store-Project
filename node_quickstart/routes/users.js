@@ -4,7 +4,7 @@ module.exports = router
 const UserModel = require('../models/user_model')
 // TO DO CHECK THE FAVOURITES
 async function getUser(req,res,next) { // this is a helper function
-    // gets the user which allows for quicker deletion/modification/view 
+    // gets the user which allows for quicker deletion/modification/view
     let user
     try{
         user = await UserModel.findById(req.params.id)
@@ -25,7 +25,7 @@ router.get('/', async (req,res) =>{
         res.json(Users)
    }
    catch (err) {
-        res.status(500).json({message : err.message}) 
+        res.status(500).json({message : err.message})
    }
 })
 // create a user
@@ -39,12 +39,12 @@ router.post('/', async (req,res) =>{
         res.status(201).json(newUser)
     }
     catch(err){
-        res.status(400).json({message : err.message}) 
+        res.status(400).json({message : err.message})
     }
 })
 // get one user
 router.get('/:id', getUser, (req,res) =>{
-    res.send(res.user) 
+    res.send(res.user)
 })
 // delete one user (I used way too many curse words during testing)
 router.delete('/:id', getUser, async(req,res) =>{
@@ -52,6 +52,6 @@ router.delete('/:id', getUser, async(req,res) =>{
         await res.user.deleteOne()
         res.send({message : "Deleted the user"})}
     catch(err){
-        res.status(500).json({message : err.message}) 
+        res.status(500).json({message : err.message})
     }
 })
