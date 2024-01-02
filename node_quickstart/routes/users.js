@@ -32,7 +32,8 @@ router.get('/', async (req,res) =>{
 router.post('/', async (req,res) =>{
     const user = new UserModel({
         login : req.body.login,
-        password : req.body.password
+        password : req.body.password,
+        admin : req.body.admin
     })
     try{
         const newUser = await user.save()

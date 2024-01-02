@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 //console.log("library")
-mongoose.connect("")
+mongoose.connect()
 //console.log("mongoose connection")
 const db = mongoose.connection
 db.on('error', (error) => console.error(error))
@@ -17,4 +17,7 @@ const orderRouter = require('./routes/orders')
 app.use('/users',userRouter)
 app.use('/products',productRouter)
 app.use('/orders',orderRouter)
-app.listen(3000,() => console.log('Server Started'))
+app.get('/', (req, res) => {
+    res.send('I AM UNDER MAINTENANCE!');
+  });
+app.listen(8080,() => console.log('Server Started'))
