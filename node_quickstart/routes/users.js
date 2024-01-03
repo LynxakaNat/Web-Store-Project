@@ -3,21 +3,8 @@ const router = express.Router()
 module.exports = router
 const UserModel = require('../models/user_model')
 // TO DO CHECK THE FAVOURITES
-async function getUser(req,res,next) { // this is a helper function
-    // gets the user which allows for quicker deletion/modification/view
-    let user
-    try{
-        user = await UserModel.findById(req.params.id)
-        if (user == null){
-            return res.status(404).json({message : "Cannot find user"})
-        }
-    }
-    catch(err){
-        return res.status(500).json({message: err.message})
-    }
-    res.user = user
-    next()
-}
+
+
 // get all the users .../users/
 router.get('/', async (req,res) =>{
    try {
@@ -43,12 +30,28 @@ router.post('/', async (req,res) =>{
         res.status(400).json({message : err.message})
     }
 })
+async function getUserByLogin(req, res, next) {
+    let user;
+    try {
+
+        user = await UserModel.findOne({ login: req.params.login });
+
+        if (user == null) {
+            return res.status(404).json({ message: "Cannot find product with this login" });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+    res.user = user;
+    next();
+}
 // get one user
-router.get('/:id', getUser, (req,res) =>{
+router.get('/:login', getUserByLogin, async(req,res) =>{
     res.send(res.user)
 })
 // delete one user (I used way too many curse words during testing)
-router.delete('/:id', getUser, async(req,res) =>{
+router.delete('/:login', getUserByLogin, async(req,res) =>{
     try{
         await res.user.deleteOne()
         res.send({message : "Deleted the user"})}

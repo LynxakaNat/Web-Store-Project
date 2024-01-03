@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
-// we are gonna have a model that has all the properties of our products 
+// we are gonna have a model that has all the properties of our products
 const productSchema = new mongoose.Schema({
     name:{
         type : String,
         required: true
     },
     author:{
+        type : String,
+        required: true
+    },
+    genre :{
         type : String,
         required: true
     },

@@ -4,8 +4,7 @@ module.exports = router
 const ProductModel = require('../models/product_model')
 
 
-async function getProduct(req,res,next) { // this is a helper function
-
+async function getProduct(req,res,next) { // BY ID
     let prod
     try{
         prod = await ProductModel.findById(req.params.id)
@@ -19,6 +18,22 @@ async function getProduct(req,res,next) { // this is a helper function
     res.prod = prod
     next()
 }
+async function getProductByName(req, res, next) {
+    let prod;
+    try {
+
+        prod = await ProductModel.findOne({ name: req.params.name });
+
+        if (prod == null) {
+            return res.status(404).json({ message: "Cannot find product with this name" });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+    res.prod = prod;
+    next();
+}
 // get all the products
 router.get('/', async(req,res) =>{
     try {
@@ -30,14 +45,18 @@ router.get('/', async(req,res) =>{
    }
 })
 // get one product
-router.get('/:id', getProduct, async(req,res) =>{
+router.get('/:name', getProductByName, async(req,res) =>{
     res.send(res.prod)
 })
+//router.get('/:id', getProduct, async(req,res) =>{
+//    res.send(res.prod) search by id I guess if needed IM LOSINGMYMIND
+//})
 // create a product
 router.post('/', async(req,res) =>{
     const product = new ProductModel({
         name : req.body.name,
         author : req.body.author,
+        genre : req.body.genre,
         description : req.body.description,
         price : req.body.price,
         stock : req.body.stock
@@ -51,7 +70,7 @@ router.post('/', async(req,res) =>{
     }
 })
 // delete a product
-router.delete('/:id',getProduct, async(req,res) =>{
+router.delete('/:name', getProductByName, async(req,res) =>{
     try{
         await res.prod.deleteOne()
         res.send({message : "Deleted the product"})}
@@ -60,12 +79,15 @@ router.delete('/:id',getProduct, async(req,res) =>{
     }
 })
 // update a product
-router.patch('/:id', getProduct, async(req,res) =>{
+router.patch('/:name',  getProductByName, async(req,res) =>{
     if (req.body.name != null){
         res.prod.name = req.body.name
     }
     if (req.body.author != null){
         res.prod.author = req.body.author
+    }
+    if (req.body.genre != null){
+        res.prod.genre = req.body.genre
     }
     if (req.body.description != null){
         res.prod.description = req.body.description
