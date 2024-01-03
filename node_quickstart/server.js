@@ -19,7 +19,7 @@ const orderRouter = require('./routes/orders')
 app.use('/users',userRouter)
 app.use('/products',productRouter)
 app.use('/orders',orderRouter)
-app.post('/discover', (req, res) => {
-  console.log('click')
+app.get('/discover', (req, res) => {
+  res.sendFile(path.join(__dirname,'./public/search.html'));
 });
 app.listen(8080,() => console.log('Server Started'))
