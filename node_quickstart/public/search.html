@@ -1,9 +1,61 @@
 <html>
-<form id="form" role="search">
-  <input type="search" id="query" name="q"
+  <html lang='en' class=''>
+  <head>
+    <meta charset='UTF-8'>
+    <title> Search</title>
+    <style>
+        body {
+        background-color: #ea3323;
+        margin: 200px 40%;
+      }
+
+      form {
+        background-color: #54100a;
+        width: 300px;
+        height: 44px;
+        border-radius: 5px;
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+      }
+
+      input {
+        all: unset;
+        font: 16px system-ui;
+        color: #fff;
+        height: 100%;
+        width: 100%;
+        padding: 6px 10px;
+      }
+
+      ::placeholder {
+        color: #fff;
+        opacity: 0.7;
+      }
+
+      svg {
+        color: #fff;
+        fill: currentColor;
+        width: 24px;
+        height: 24px;
+        padding: 10px;
+      }
+
+      button {
+        all: unset;
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+      }
+    </style>
+  </head>
+
+  <body>
+<form action="http://localhost:8080/search" method="POST">
+  <input type="text" name="name"
    placeholder="Search..."
-   aria-label="Search through site content">
-  <button>Search</button>
+   >
+  <button type="submit">Search</button>
 </form>
-    <script src="client.js"></script>
+</body>
 </html>

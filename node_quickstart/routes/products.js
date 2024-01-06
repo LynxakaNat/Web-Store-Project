@@ -4,20 +4,6 @@ module.exports = router
 const ProductModel = require('../models/product_model')
 
 
-async function getProduct(req,res,next) { // BY ID
-    let prod
-    try{
-        prod = await ProductModel.findById(req.params.id)
-        if (prod == null){
-            return res.status(404).json({message : "Cannot find user"})
-        }
-    }
-    catch(err){
-        return res.status(500).json({message: err.message})
-    }
-    res.prod = prod
-    next()
-}
 async function getProductByName(req, res, next) {
     let prod;
     try {
@@ -34,6 +20,9 @@ async function getProductByName(req, res, next) {
     res.prod = prod;
     next();
 }
+router.get('/:name', getProductByName, async(req,res) =>{
+    res.send(res.prod)
+})
 // get all the products
 router.get('/', async(req,res) =>{
     try {
@@ -45,9 +34,7 @@ router.get('/', async(req,res) =>{
    }
 })
 // get one product
-router.get('/:name', getProductByName, async(req,res) =>{
-    res.send(res.prod)
-})
+
 //router.get('/:id', getProduct, async(req,res) =>{
 //    res.send(res.prod) search by id I guess if needed IM LOSINGMYMIND
 //})
