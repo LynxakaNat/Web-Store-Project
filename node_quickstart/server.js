@@ -5,8 +5,9 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+
 //console.log("library")
-mongoose.connect("")
+mongoose.connect()
 //console.log("mongoose connection")
 const db = mongoose.connection
 db.on('error', (error) => console.error(error))

@@ -3,7 +3,9 @@ const mongoose = require('mongoose')
 const productSchema = new mongoose.Schema({
     name:{
         type : String,
-        required: true
+        required: true,
+        text: true // we only enable it for name because we only wanna search by name
+        // not by any other property
     },
     author:{
         type : String,

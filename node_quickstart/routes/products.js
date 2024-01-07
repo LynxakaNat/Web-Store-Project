@@ -3,12 +3,11 @@ const router = express.Router()
 module.exports = router
 const ProductModel = require('../models/product_model')
 
-
 async function getProductByName(req, res, next) {
-    let prod;
+    let prod; //req.params.name
     try {
 
-        prod = await ProductModel.findOne({ name: req.params.name });
+        prod = await ProductModel.find({ $text: { $search: req.params.name } });
 
         if (prod == null) {
             return res.status(404).json({ message: "Cannot find product with this name" });
